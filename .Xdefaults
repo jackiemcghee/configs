@@ -1,0 +1,5 @@
+xterm*termName: xterm-256color
+xterm*locale: true
+xterm*foreground: white
+xterm*background: black
+xterm*font: -xos4-terminus-medium-r-*-*-12-*-*-*-*-*-*-*
