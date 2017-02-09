@@ -14,7 +14,7 @@ set enc=utf-8
 " Syntax highlighting
 syntax on
 set background=dark
-colorscheme xoria256
+colorscheme solarized
 
 " Editor settings
 set hidden
@@ -39,18 +39,18 @@ set foldlevel=4
 set backspace=indent,eol,start
 
 " Editor UI settings
-"set guifont=Consolas:h11
-"set antialias
+set guifont=Consolas:h11
+set antialias
 set relativenumber
-"set guioptions=
-"set guicursor+=a:blinkon0
+set guioptions=
+set guicursor+=a:blinkon0
 set cursorline
-" set cursorcolumn
-"set colorcolumn=80
-" hi colorcolumn guibg=#41515f
+set cursorcolumn
+set colorcolumn=120
+hi colorcolumn guibg=#00242d
 
 " Statusline settings
-set statusline=%f%m%r%h%w\ %=[%{&ff}]\ [%Y]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+set statusline=\ %f%m%r%h%w\ %=%{fugitive#statusline()}\ 
 set ls=2
 
 " Searching
@@ -65,15 +65,8 @@ set nowritebackup
 set noswapfile
 filetype plugin indent on
 
-" Function to toggle between relative and absolute line numbers
-function! g:ToggleNuMode()
-    if(&rnu==1)
-        set nu
-    else
-        set rnu
-    endif
-endfunc
-
+set rnu
+set nu
 set listchars=tab:▸\ ,eol:¬
 set nolist
 highlight NonText guifg=#cccccc
@@ -81,11 +74,8 @@ highlight SpecialKey guifg=#cccccc
 
 " Leader settings and shortcuts
 let mapleader="\\"
-nnoremap <leader>n :NERDTreeToggle<cr>
-nnoremap <leader>r :so ~/_vimrc<cr>
-nnoremap <leader>s :cd C:\Work\SVN<cr>
+nnoremap <leader>r :so ~/.vimrc<cr>
 nnoremap <leader>i gg=G
 nnoremap <leader>/ /PaletteCleanser<cr>
 nnoremap <leader>c gg=G:g/^$/d<cr>
-nnoremap <leader>w :cd c:\wamp\www<cr>
-nnoremap <leader>l :call g:ToggleNuMode()<cr>
+nnoremap <leader>w :cd c:\Work\projects<cr>
