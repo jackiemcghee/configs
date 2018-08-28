@@ -2,8 +2,27 @@
 "" Created: 10-Nov-2008
 "" Modified: 25-Apr-2013
 
-" Pathogen init
-execute pathogen#infect()
+" set t_Co=256
+
+" vim-plug init
+call plug#begin('~/.vim/plugged')
+Plug 'prettier/vim-prettier'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'w0rp/ale'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'mhartington/oceanic-next'
+call plug#end()
+
+" JSX syntax without .JSX suffix
+let g:jsx_ext_required=0
+
+" Keep ALE gutter open
+let g:ale_sign_column_always=1
 
 " Switch off Vi ompatibility
 set nocompatible
@@ -14,7 +33,12 @@ set enc=utf-8
 " Syntax highlighting
 syntax on
 set background=dark
-colorscheme solarized
+colorscheme OceanicNext
+if (has("termguicolors"))
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 
 " Editor settings
 set hidden
@@ -39,14 +63,9 @@ set foldlevel=4
 set backspace=indent,eol,start
 
 " Editor UI settings
-set guifont=Consolas:h11
-set antialias
 set relativenumber
-set guioptions=
-set guicursor+=a:blinkon0
-set cursorline
-set cursorcolumn
-set colorcolumn=120
+" set cursorcolumn
+set colorcolumn=80
 hi colorcolumn guibg=#00242d
 
 " Statusline settings
@@ -78,4 +97,3 @@ nnoremap <leader>r :so ~/.vimrc<cr>
 nnoremap <leader>i gg=G
 nnoremap <leader>/ /PaletteCleanser<cr>
 nnoremap <leader>c gg=G:g/^$/d<cr>
-nnoremap <leader>w :cd c:\Work\projects<cr>
