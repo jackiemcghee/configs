@@ -24,6 +24,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " JSX syntax without .JSX suffix
@@ -32,7 +33,7 @@ let g:jsx_ext_required=0
 " Keep ALE gutter open
 let g:ale_sign_column_always=2
 
-" Auto format with Prettier:
+" Auto formatwith Prettier:
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
@@ -50,15 +51,93 @@ if (has("termguicolors"))
 endif
 
 let g:lightline = {
-      \ 'colorscheme': 'nord',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
+    \ 'colorscheme': 'nord',
+    \ 'component_function': {
+    \   'gitbranch': 'fugitive#head'
+    \ }
+    \ }
+
+let g:lightline.active = {
+    \ 'left': [ [ 'mode', 'paste', 'sep1' ],
+    \           [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+    \           [ ] ],
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ],
+    \            [ 'filetype' ] ]
+    \ }
+
+let g:lightline.inactive = {
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ],
+    \            [ 'filetype' ] ]
+    \ }
+
+let g:lightline.tabline = {
+    \ 'left': [ [ 'tabs' ] ],
+    \ 'right': [ ] }
+
+let g:lightline.tab = {
+    \ 'active': [ 'tabnum', 'filename', 'modified' ],
+    \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
+
+let g:lightline.component = {
+    \ 'mode': '%{lightline#mode()}',
+    \ 'absolutepath': '%F',
+    \ 'relativepath': '%f',
+    \ 'filename': '%t',
+    \ 'modified': '%M',
+    \ 'bufnum': '%n',
+    \ 'paste': '%{&paste?"PASTE":""}',
+    \ 'readonly': '%R',
+    \ 'charvalue': '%b',
+    \ 'charvaluehex': '%B',
+    \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
+    \ 'fileformat': '%{&ff}',
+    \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
+    \ 'percent': '%3p%%',
+    \ 'percentwin': '%P',
+    \ 'spell': '%{&spell?&spelllang:""}',
+    \ 'lineinfo': '%3l:%-2v',
+    \ 'line': '%l',
+    \ 'column': '%c',
+    \ 'close': '%999X X ',
+    \ 'winnr': '%{winnr()}',
+    \ 'sep1': '😈'
+    \}
+
+let g:lightline.mode_map = {
+    \ 'n' : 'N',
+    \ 'i' : 'I',
+    \ 'R' : 'R',
+    \ 'v' : 'V',
+    \ 'V' : 'L',
+    \ "\<C-v>": 'B',
+    \ 'c' : 'C',
+    \ 's' : 'S',
+    \ 'S' : 'S-LINE',
+    \ "\<C-s>": 'S-BLOCK',
+    \ 't': 'T',
+    \ }
+
+
+let g:lightline.separator = {
+    \   'left': '', 'right': ''
+    \}
+let g:lightline.subseparator = {
+    \   'left': '', 'right': '' 
+    \}
+
+let g:lightline.tabline_separator = g:lightline.separator
+let g:lightline.tabline_subseparator = g:lightline.subseparator
+
+let g:lightline.enable = {
+    \ 'statusline': 1,
+    \ 'tabline': 1
+    \ }
 
 " Editor settings
 set hidden
@@ -66,7 +145,8 @@ set noshowmode
 set wildmenu
 set wildoptions=pum
 set pumblend=10
-set wildmode=longest:full
+set winblend=10
+" set wildmode=longest:full
 set guioptions=
 
 " Editor text settings
@@ -110,9 +190,38 @@ set signcolumn=yes
 set colorcolumn=
 " hi colorcolumn guibg=#1a1a1a
 " Gruvbox
-"hi cursorline guibg=#232426
-""hi! EndOfBuffer guibg=#282828 guifg=#282828
-"hi signcolumn guibg=#282828
+" hi cursorline guibg=#232426
+" hi! EndOfBuffer guibg=#282828 guifg=#282828
+" hi signcolumn guibg=#282828
+
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+ 
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+ 
+  let height = float2nr(10)
+  let width = float2nr(80)
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = 1
+ 
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \ }
+ 
+  call nvim_open_win(buf, v:true, opts)
+endfunction
+
+nnoremap <silent> <C-p> :call fzf#vim#files('.', {'options': '--prompt ""'})<CR>
 
 " This is the default extra key bindings
 let g:fzf_action = {
@@ -187,4 +296,4 @@ let mapleader="\\"
 nnoremap <leader>e :e **/
 nnoremap <leader>r :so ~/.config/nvim/init.vim<cr>
 nnoremap <leader>/ :Ag<SPACE>
-nnoremap <leader>\ :noh<cr>
+nnoremap <leader>\ :noh<cr> 
