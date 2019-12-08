@@ -23,12 +23,15 @@
   "workbench.sideBar.location": "right",
   "debug.toolBarLocation": "docked",
   "workbench.settings.editor": "json",
-  "window.nativeTabs": false,
-  "window.titleBarStyle": "custom",
+  "window.nativeTabs": true,
+  "window.titleBarStyle": "native",
   "workbench.settings.useSplitJSON": false,
   "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
     "editorCursor.foreground": "#ff6600",
+    // "statusBar.background": "#333333",
+    // "statusBarItem.remoteBackground": "#444444",
+    // "activityBarBadge.background": "#999999"
     // "editorGroupHeader.noTabsBackground": "#282828"
   },
   "workbench.statusBar.visible": true,
@@ -86,11 +89,13 @@
   },
   "todo-tree.highlights.enabled": true,
   "gitlens.currentLine.scrollable": false,
-  "workbench.colorTheme": "Nord",
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
+  "calva.paredit.defaultKeyMap": "strict",
+  "workbench.colorTheme": "Nord"
 }
